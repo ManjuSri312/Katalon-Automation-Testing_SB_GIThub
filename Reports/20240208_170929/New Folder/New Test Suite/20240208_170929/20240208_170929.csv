@@ -1,0 +1,18 @@
+Suite/Test/Step Name,Browser,Description,Tag,Start time,End time,Duration,Status
+New Test Suite,Chrome 121.0.0.0,,,08-02-2024 17:09:35,08-02-2024 17:10:00,25.452s,PASSED
+,,,,,,,
+Test Cases/New Test Case,Chrome 121.0.0.0,,,08-02-2024 17:09:35,08-02-2024 17:09:42,6.986s,PASSED
+"openBrowser("""")",Chrome 121.0.0.0,,,08-02-2024 17:09:35,08-02-2024 17:09:38,2.736s,PASSED
+"navigateToUrl(""https://www.amazon.com/"")",Chrome 121.0.0.0,,,08-02-2024 17:09:38,08-02-2024 17:09:40,2.173s,PASSED
+"click(findTestObject(""Object Repository/OPEN BROWSER/Page_Amazon.com/button_Continue shopping""))",Chrome 121.0.0.0,,,08-02-2024 17:09:40,08-02-2024 17:09:41,0.943s,PASSED
+closeBrowser(),Chrome 121.0.0.0,,,08-02-2024 17:09:41,08-02-2024 17:09:42,0.756s,PASSED
+,,,,,,,
+Test Cases/Test Case 1_by manju,Chrome 121.0.0.0,,,08-02-2024 17:09:42,08-02-2024 17:10:00,18.176s,PASSED
+"openBrowser("""")",Chrome 121.0.0.0,,,08-02-2024 17:09:42,08-02-2024 17:09:43,1.299s,PASSED
+"navigateToUrl(""https://www.amazon.com/"")",Chrome 121.0.0.0,,,08-02-2024 17:09:43,08-02-2024 17:09:45,1.775s,PASSED
+"click(findTestObject(""Object Repository/amazon_login/Page_Amazon.com. Spend less. Smile more/span_Hello, sign in""))",Chrome 121.0.0.0,,,08-02-2024 17:09:45,08-02-2024 17:09:53,7.953s,PASSED
+"setText(findTestObject(""Object Repository/amazon_login/Page_Amazon Sign-In/input_email""), ""9573318054"")",Chrome 121.0.0.0,,,08-02-2024 17:09:53,08-02-2024 17:09:55,1.722s,PASSED
+"click(findTestObject(""Object Repository/amazon_login/Page_Amazon Sign-In/inputcontinue""))",Chrome 121.0.0.0,,,08-02-2024 17:09:55,08-02-2024 17:09:58,3.223s,PASSED
+"setEncryptedText(findTestObject(""Object Repository/amazon_login/Page_Amazon Sign-In/input_password""), ""iISW9LWYisw="")",Chrome 121.0.0.0,,,08-02-2024 17:09:58,08-02-2024 17:09:59,0.877s,PASSED
+"click(findTestObject(""Object Repository/amazon_login/Page_Amazon Sign-In/inputsignInSubmit""))",Chrome 121.0.0.0,,,08-02-2024 17:09:59,08-02-2024 17:10:00,0.633s,PASSED
+closeBrowser(),Chrome 121.0.0.0,,,08-02-2024 17:10:00,08-02-2024 17:10:00,0.446s,PASSED
