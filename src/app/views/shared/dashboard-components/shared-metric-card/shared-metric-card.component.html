@@ -1,0 +1,36 @@
+<div class="cardd">
+  <div class="cardd-title">
+    {{ title }}
+    @if (tooltip) {
+      <mat-icon
+        class="help-icon"
+        [matTooltip]="tooltip"
+        matTooltipPosition="below"
+        matTooltipClass="custom-tooltip"
+      >
+        help_outline
+      </mat-icon>
+    }
+  </div>
+
+  @if (subtitle) {
+    <div class="card-subtitle">{{ subtitle }}</div>
+  }
+
+  <div
+    class="big-value"
+    [ngClass]="valueClass"
+    [style.padding]="valuePadding"
+  >
+    {{ value ?? 0 }}
+    @if (unit) {
+      <span class="sub" [ngClass]="valueClass">{{ unit }}</span>
+    }
+  </div>
+
+   @if (showPoweredBy) {
+  <div class="powered-by">
+    Powered by Clockworks
+  </div>
+}
+</div>

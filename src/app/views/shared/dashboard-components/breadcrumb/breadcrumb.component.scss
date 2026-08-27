@@ -1,0 +1,40 @@
+:host { display: block; width: 100%; }
+
+.breadcrumb-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  min-height: 88px;
+  /* One shared spacing rule: every page renders the breadcrumb identically. */
+  // padding: 45px 0 18px 50px;
+  padding: 55px 25px 30px 55px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #3a3a3a;
+  background: #000;
+  color: #ccc;
+  font-family: "Open Sans";
+}
+
+/* Asset Workspace top bar only: tighter spacing than the shared default above. */
+:host(.variant-asset-topbar) .breadcrumb-bar {
+  padding: 0px 0px 0px 55px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--Sky-Blue, #33A6FF);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 16px; }
+.path a { color: var(--Sky-Blue, #33A6FF); text-decoration: none; }
+.path a:hover, .path a:focus-visible { color: #33a6ff; text-decoration: underline; }
+.path b { color: var(--Dynamic-Orange-500, #ff8200); font-size: 14px; font-weight: 600; line-height: 18px; }

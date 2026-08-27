@@ -1,0 +1,60 @@
+<main class="component-library">
+  <section class="library-header">
+    <div>
+      <p class="eyebrow">Design system</p>
+      <h1>{{ showAll ? 'All shared components' : 'Featured shared components' }}</h1>
+      <p class="intro">Reusable building blocks from the shared dashboard library.</p>
+    </div>
+    <button class="view-all" type="button" (click)="toggleAll()">
+      {{ showAll || selected ? 'Show featured components' : 'View all components' }}
+      <span aria-hidden="true">→</span>
+    </button>
+  </section>
+
+  <section class="component-showcase" aria-label="Shared components">
+    @if (!showAll && !selected) {
+      <button class="carousel-control previous" type="button" (click)="previousFeatured()" aria-label="Previous featured components">‹</button>
+    }
+    <div class="component-grid" [class.all-components]="showAll">
+      @for (card of visibleCards; track card.name) {
+        <article class="component-card" [class.selected]="selected === card">
+          <button class="preview" type="button" (click)="select(card)" [attr.aria-label]="'View ' + card.name + ' related components'">
+            @if (card.kind === 'metric') {
+              <app-shared-metric-card title="Open diagnostics" [value]="1195" valuePadding="28px 0" [showPoweredBy]="false" />
+            } @else if (card.kind === 'asset') {
+              <app-shared-asset-metric-card title="Achieved savings" [value]="176.7" [showPoweredBy]="false">
+                <span metric-prefix class="preview-currency">$</span><span metric-postfix class="preview-unit">k</span>
+              </app-shared-asset-metric-card>
+            } @else if (card.kind === 'missing') {
+              <app-shared-missing-parameter-card title="Missing parameters" [assetCount]="24" [inputCount]="8" [diagnosticCount]="3" varianceImpact="$12.4k" />
+            } @else if (card.kind === 'breadcrumb') {
+              <div class="breadcrumb-preview"><span>‹ Back</span><div><b>Dashboard</b><i>/</i><b>Assets</b><i>/</i><strong>AHU-03</strong></div></div>
+            } @else if (card.kind === 'export') {
+              <div class="export-preview"><span>Export</span><i>⌄</i><small>CSV&nbsp;&nbsp; PDF&nbsp;&nbsp; PNG</small></div>
+            } @else {
+              <div class="csv-preview"><span>↓</span><strong>Export CSV</strong><small>Download table data</small></div>
+            }
+          </button>
+          <div class="card-caption"><h2>{{ card.name }}</h2><p>{{ card.description }}</p></div>
+        </article>
+      }
+    </div>
+    @if (!showAll && !selected) {
+      <button class="carousel-control next" type="button" (click)="nextFeatured()" aria-label="Next featured components">›</button>
+    }
+  </section>
+
+  @if (selected; as card) {
+    <section class="related">
+      <div class="related-heading">
+        <div><p class="eyebrow">Related shared components</p><h2>{{ card.name }}</h2></div>
+        <button class="text-button" type="button" (click)="selected = null">Back to all</button>
+      </div>
+      <div class="related-list">
+        @for (item of card.related; track item) {
+          <div class="related-item"><span class="status-dot"></span><span>{{ item }}</span><span class="path">shared/dashboard-components</span></div>
+        }
+      </div>
+    </section>
+  }
+</main>

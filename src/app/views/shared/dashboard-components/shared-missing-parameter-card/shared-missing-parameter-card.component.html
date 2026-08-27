@@ -1,0 +1,101 @@
+<div class="cardd">
+  <div class="cardd-title">
+    {{ title }}
+    <mat-icon
+      class="help-icon"
+      [matTooltip]="tooltip"
+      matTooltipPosition="below"
+      matTooltipClass="custom-tooltip"
+    >
+      help_outline
+    </mat-icon>
+  </div>
+
+  <!-- TABS -->
+  <!-- <div class="tabs" style="display: flex">
+    <span
+      class="tab"
+      [class.active]="selectedTab === 'all'"
+      (click)="selectedTab = 'all'"
+    >
+      All
+    </span>
+    <span
+      class="tab"
+      [class.active]="selectedTab === 'critical'"
+      (click)="selectedTab = 'critical'"
+    >
+      Critical
+    </span>
+  </div> -->
+
+
+  <div class="tabs" style="display: flex">
+  <span
+    class="tab"
+    [class.active]="selectedTab === 'all'"
+    (click)="onTabChange('all')"
+  >
+    All
+  </span>
+
+  <span
+    class="tab"
+    [class.active]="selectedTab === 'critical'"
+    (click)="onTabChange('critical')"
+  >
+    Critical
+  </span>
+</div>
+<!-- <div class="container">
+  Asset Count
+  <div class="asset-section">
+    <span class="asset-count">{{ assetCount }}</span>
+    <span class="asset-label">assets</span>
+  </div>
+
+  Inputs
+  <div class="pill-container">
+  <div class="metric-pill warning">
+    <mat-icon>warning_amber</mat-icon>
+    <span>{{ inputCount }} inputs</span>
+  </div>
+
+  <div class="metric-pill neutral">
+    <mat-icon>info</mat-icon>
+    <span>{{ diagnosticCount }} diagnostics</span>
+  </div>
+</div>
+</div> -->
+
+<div class="asset-container">
+  <!-- Left -->
+  <div class="asset-section">
+    <div class="asset-count">{{ assetCount }}</div>
+   <div class="asset-label">{{ assetLabel }}</div>
+  </div>
+
+  <!-- Right -->
+  <div class="pill-container">
+    <div class="metric-pill warning">
+      <mat-icon>warning_amber</mat-icon>
+      <span>{{ inputCount }} inputs</span>
+    </div>
+
+    @if (showDiagnosticPill) {
+  <div class="metric-pill neutral">
+    <mat-icon>info</mat-icon>
+    <span>{{ diagnosticCount }} diagnostics</span>
+  </div>
+}
+  </div>
+</div>
+  <!-- Footer -->
+  <div class="footer">
+    <ng-content select="[metric-footer]"></ng-content>
+  </div>
+
+   <div class="powered-by">
+    Powered by Clockworks
+  </div>
+</div>

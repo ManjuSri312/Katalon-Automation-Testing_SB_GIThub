@@ -1,0 +1,179 @@
+<div class="dialog-wrapper">
+  <!-- HEADER -->
+  <div class="dialog-header">
+    <h2>Create Task</h2>
+    <mat-icon class="close-icon" mat-dialog-close>close</mat-icon>
+  </div>
+
+  <!-- BODY (scrollable) -->
+  <div class="dialog-body">
+    <label>Building</label>
+    <input [value]="building" placeholder="Enter building name" readonly />
+
+    <label>Asset Class</label>
+    <input
+      [value]="equipmentType"
+      placeholder="e.g., Air Handling Unit, Chiller"
+      readonly
+    />
+
+    <label>Asset</label>
+    <input [value]="asset" placeholder="e.g., AHU-03" readonly />
+
+    <label>Related Diagnostic</label>
+    <input
+      [value]="relatedDiagnostic"
+      placeholder="e.g., Simultaneous Heating/Cooling"
+      readonly
+    />
+
+    <label>Achievable Annual Savings</label>
+    <div class="readonly-with-icons">
+      <input
+        [value]="achievableSavingsDisplay"
+        placeholder="e.g.,$8.2k"
+        readonly
+      />
+      <!-- @if (!hasMissingParameters) {
+        <mat-icon class="confirmed-icon">check_circle</mat-icon>
+      } -->
+      @if (hasMissingParameters) {
+        <mat-icon
+          class="warning-icon"
+          matTooltip="# inputs required to increase accuracy"
+          matTooltipPosition="above"
+          matTooltipClass="yellow-tooltip"
+          >warning_amber</mat-icon
+        >
+      }
+    </div>
+
+    <label class="dropdown-label"
+      ><span class="required-mark">*</span>Assigned to</label
+    >
+    <div class="dropdown-container">
+      <mat-form-field appearance="outline" class="compact-select">
+        <mat-select
+          [(value)]="assignedTo"
+          panelClass="assignee-panel"
+          placeholder="Select one..."
+          (closed)="onAssigneeClosed()"
+        >
+          <!-- SEARCH BOX -->
+          <mat-option class="search-option" disableRipple>
+            <div class="search-box" (click)="$event.stopPropagation()">
+              <input
+                matInput
+                type="text"
+                placeholder="Search Assignee..."
+                [(ngModel)]="assigneeSearch"
+                (click)="$event.stopPropagation()"
+                (keydown)="$event.stopPropagation()"
+                (input)="$event.stopPropagation()"
+              />
+
+              <mat-icon class="search-icon">search</mat-icon>
+            </div>
+          </mat-option>
+          <mat-option value="0">No Assignee</mat-option>
+
+          @for (value of filteredUserEmails; track value) {
+            <mat-option [value]="value.Email">
+              {{ value.Email }}
+            </mat-option>
+          }
+        </mat-select>
+
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+      </mat-form-field>
+      @if (isAssignedToInvalid) {
+        <span class="field-error">Assigned to is required.</span>
+      }
+    </div>
+
+    <label class="dropdown-label"
+      ><span class="required-mark">*</span>Status</label
+    >
+
+    <div class="dropdown-container">
+      <mat-form-field appearance="outline" class="compact-select">
+        <mat-select
+          [(value)]="status"
+          panelClass="assignee-panel"
+          placeholder="Select Status"
+        >
+          <mat-option value="Open">Open</mat-option>
+          <mat-option value="InProgress">In Progress</mat-option>
+          <mat-option value="Completed">Completed</mat-option>
+          <mat-option value="On Hold">On Hold</mat-option>
+        </mat-select>
+
+        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+      </mat-form-field>
+      @if (isStatusInvalid) {
+        <span class="field-error">Status is required.</span>
+      }
+    </div>
+
+    <!-- Work Order Category -->
+    <label class="dropdown-label">Work Order Category</label>
+    <div class="dropdown-container">
+      <select [(ngModel)]="workOrderCategory" class="dropdown-select">
+        <option value="predictive">Predictive</option>
+        <option value="repair">Repair</option>
+        <option value="inspection">Inspection</option>
+      </select>
+      <mat-icon class="dropdown-arrow">keyboard_arrow_down</mat-icon>
+    </div>
+
+    <!-- Work Order Type -->
+    <label class="dropdown-label">Work Order Type</label>
+    <div class="dropdown-container">
+      <select [(ngModel)]="workOrderType" class="dropdown-select">
+        <option value="proactive">Proactive</option>
+        <option value="corrective">Corrective</option>
+        <option value="emergency">Emergency</option>
+      </select>
+      <mat-icon class="dropdown-arrow">keyboard_arrow_down</mat-icon>
+    </div>
+    <label>Description</label>
+    <textarea style="background-color: black !important;"
+      [(ngModel)]="description"
+      placeholder="Enter task description..."
+    ></textarea>
+
+    <label class="dropdown-label"
+      ><span class="required-mark">*</span>Due Date</label
+    >
+
+    <div class="date-input">
+      <mat-icon (click)="dueDateInput.showPicker()">calendar_today</mat-icon>
+
+      <input
+        #dueDateInput
+        type="date"
+        [(ngModel)]="expResDate"
+        placeholder="dd-mm-yyyy"
+      />
+    </div>
+
+    @if (isDueDateInvalid) {
+      <span class="field-error">Due date is required.</span>
+    }
+
+    <div class="toggle-row">
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="generateWorkOrder" />
+        <span class="slider"></span>
+      </label>
+
+      <span class="toggle-label">Generate Work Order</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="dialog-footer">
+    <button class="btn-cancel" mat-dialog-close>Cancel</button>
+    <button class="btn-create" (click)="save()">Save Task</button>
+  </div>
+</div>
