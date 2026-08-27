@@ -4,3 +4,6 @@
 /.settings/
 /.classpath
 .svn/
+node_modules
+.angular/
+dist/
