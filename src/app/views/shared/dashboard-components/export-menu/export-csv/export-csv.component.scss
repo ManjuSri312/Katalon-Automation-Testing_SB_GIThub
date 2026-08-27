@@ -1,0 +1,142 @@
+
+/* ACTIVE STATE — ORANGE */
+.export-action.open {
+  background: transparent; /* orange */
+  color: #ff8200;
+}
+
+/* change svg icon colors when active */
+.export-action.open svg path {
+  fill: #ff8200;
+  stroke: #ff8200;
+}
+
+.export-action.open span {
+  background: transparent; /* orange */
+  color: #ff8200;
+}
+
+.export-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.export-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+   white-space: nowrap;
+  cursor: pointer;
+  .chevron {
+    display: flex;
+    transition: transform 0.2s ease;
+  }
+  &.open .chevron {
+    // transform: rotate(180deg);
+  }
+}
+
+.export-panel {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 0;
+  border-radius: 8px;
+  border: 1px solid var(--Gray-Palette-30, #4d4d4d);
+  background: var(--Gray-Palette-20, #333);
+  border-radius: 6px;
+  min-width: 160px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  z-index: 100;
+
+  &.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+}
+
+.export-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #d1d3db;
+  // border-bottom: 1px solid #454854;
+  // border-radius: 8px;
+  // border: 1px solid var(--Gray-Palette-30, #4D4D4D);
+  background: var(--Gray-Palette-20, #333);
+  transition: background 0.1s;
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    background: var(--Area-Gray-400, #747474);
+  }
+}
+
+
+.export-action {
+  display: flex;
+  padding: 12px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+   white-space: nowrap;
+  // transition: all 0.2s ease;
+
+  span {
+    transition: color 0.1s ease;
+     white-space: nowrap;
+color: var(--Light-mode-Background, #FFF);
+font-family: "Open Sans";
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px; /* 125% */
+  }
+
+  svg path {
+    transition: all 0.1s ease;
+  }
+
+  // HOVER
+  &:hover {
+    background: #000;
+    border: 1px solid #3a3a3a !important;
+
+    // span {
+    //   color: #fff;
+    // }
+
+    // svg path {
+    //   fill: #fff;
+    //   stroke: #fff;
+    // }
+  }
+
+  // CLICK / ACTIVE
+  &:active {
+    background: transparent;
+    border: transparent;
+
+    span {
+      color: var(--Primary-Orange, #ff8200);
+    }
+
+    svg path {
+      fill: var(--Primary-Orange, #ff8200);
+      stroke: var(--Primary-Orange, #ff8200);
+    }
+  }
+}
+

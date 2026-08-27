@@ -1,0 +1,474 @@
+.dialog-wrapper {
+  background: #1d1d1d;
+  color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 85vh;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #3a3a3a;
+  padding: 24px 0px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item {
+  background-color: #000 !important;
+  align-items: center;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item:hover {
+  background-color: #000 !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item.mdc-list-item--selected {
+  background-color: #000 !important;
+}
+
+.dialog-body label {
+  font-size: 13px;
+  color: #fff;
+}
+
+.dialog-body input,
+.dialog-body select,
+.dialog-body textarea {
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 8px;
+  color: #fff;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid var(--Area-Gray-400, #747474);
+  background: var(--Area-Gray-500, #3a3a3a);
+}
+
+.dialog-body :-ms-input-placeholder {
+  color: #afafaf !important;
+}
+
+.dialog-body input::placeholder,
+.dialog-body textarea::placeholder {
+  color: #afafaf;
+}
+
+.dialog-body textarea {
+  height: 80px;
+  resize: none;
+  min-height: 80px;
+  max-height: 150px;
+}
+
+.dialog-body input[readonly] {
+  color: #afafaf;
+  cursor: default;
+}
+
+.required-mark {
+  color: #f44336;
+}
+
+::ng-deep .mat-mdc-form-field {
+  width: 100% !important;
+}
+
+.field-error {
+  color: #f44336;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  display: block;
+}
+
+.readonly-with-icons {
+  position: relative;
+
+  input {
+    width: 100%;
+    padding-right: 36px;
+    box-sizing: border-box;
+  }
+
+  .confirmed-icon,
+  .warning-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .confirmed-icon {
+    color: #4caf50;
+  }
+
+  .warning-icon {
+    color: #ffc107;
+  }
+}
+
+.toggle-row {
+  margin-top: 8px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid #555;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+}
+
+.btn-create {
+  background: #0545f5;
+  border: none;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+}
+
+.dialog-body {
+  flex: 1;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 16px 24px;
+  border-bottom: 1px solid #3a3a3a;
+}
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+}
+
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+
+/* Circle */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+/* ON state */
+.switch input:checked + .slider {
+  background-color: #33a6ff;
+}
+
+/* Move circle */
+.switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.toggle-label {
+  font-size: 14px;
+}
+
+.dropdown-label {
+  color: #fff;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-select {
+  width: 100%;
+  height: 39px;
+  border-radius: 4px;
+  border: 1px solid #3a3a3a;
+  background: #0a0a0a;
+  color: #fff;
+  font-size: 13px;
+  padding: 0 40px 0 12px;
+
+  /* remove default arrow */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.dropdown-select:disabled {
+  color: #afafaf;
+  cursor: default;
+  opacity: 1; /* override the browser's default washed-out disabled look */
+}
+
+.dropdown-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: #fff;
+  pointer-events: none;
+}
+
+.date-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px solid #747474;
+  background-color: #000;
+
+  border-radius: 6px;
+  padding: 0px 12px;
+  width: 100%;
+}
+
+.date-input input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  width: 100%;
+  font-size: 14px;
+}
+
+.date-input input::-webkit-calendar-picker-indicator {
+  opacity: 0; /* hides default browser calendar icon */
+  position: absolute;
+  right: 10px;
+}
+
+.date-input mat-icon {
+  color: #9e9e9e;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-label {
+  font-size: 13px;
+  color: #8a99b3;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.dropdown-container {
+  position: relative;
+  width: 100%;
+
+  .dropdown-select {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #3a3a3a;
+    background: #0a0a0a;
+    color: #c9d1e0;
+    border-radius: 6px;
+    font-size: 14px;
+    appearance: none; // hides default browser arrow
+    -webkit-appearance: none;
+    cursor: pointer;
+    outline: none;
+
+    &:focus {
+      border-color: #2a6dd9;
+    }
+
+    option {
+      background-color: #000;
+      color: #c9d1e0;
+    }
+  }
+
+  .dropdown-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #c9d1e0;
+    pointer-events: none; // click passes through to select
+    font-size: 20px;
+  }
+}
+
+////dropdown
+
+.compact-select {
+  width: 395px;
+
+  .mat-mdc-text-field-wrapper {
+    background: #000 !important;
+    border-radius: 4px;
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border: 1px solid var(--Area-Gray-500, #3a3a3a) !important;
+  }
+
+  /* completely hide material outline */
+  .mdc-notched-outline {
+    display: none !important;
+  }
+
+  .mat-mdc-select-value {
+    color: #fff !important;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .mat-mdc-select-arrow svg {
+    color: #000 !important;
+    fill: #000 !important;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.mat-mdc-form-field-infix {
+  padding: 15px;
+  width: 340px !important;
+}
+.assignee-panel.mat-mdc-select-panel {
+  width: 380px !important;
+  max-width: 380px !important;
+  padding: 0px !important;
+}
+
+// mat-select renders its panel via CDK Overlay (appended outside this
+// component's view), so plain scoped selectors above only affect layout
+// attributes Angular still forwards — colors need ::ng-deep to actually
+// reach the overlay content and override the Material theme's default
+// (teal-tinted) surface/hover colors with this dialog's black theme.
+::ng-deep .assignee-panel.mat-mdc-select-panel {
+  background: #000 !important;
+}
+
+::ng-deep .assignee-panel .mat-mdc-option {
+  color: #fff !important;
+  background: #000;
+
+  &:hover:not(.mdc-list-item--disabled),
+  &.mat-mdc-option-active {
+    background: #1a1a1a !important;
+  }
+
+  &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background: #222 !important;
+  }
+
+  .mdc-list-item__primary-text {
+    color: #fff !important;
+  }
+}
+
+.search-option {
+  height: auto !important;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #111 !important;
+}
+
+.search-option input {
+  width: 100%;
+  background: #000;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 4px;
+  color: #fff;
+  padding: 10px;
+  outline: none;
+  min-width: 360px;
+}
+
+.search-option input::placeholder {
+  color: #fff;
+}
+
+.search-box {
+  position: relative;
+  margin: 12px 0;
+
+  input {
+    width: 100%;
+    // background: #1a1a1a;
+    // border: 1px solid #444;
+    border-radius: 6px;
+    // padding: 8px 32px 8px 12px;
+    color: white;
+    font-size: 14px;
+    // outline: none;
+    height: auto;
+  }
+
+  mat-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #fff;
+  }
+}
+
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    padding: 0px !important;
+}
