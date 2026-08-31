@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AppMaterialModule } from '../../../material.module';
+import { AppMaterialModule } from '../../../../material.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { InternalDashboardService } from 'app/services/internal-dashboard.service';
+import { InternalDashboardService } from '../../../../services/internal-dashboard.service';
 // import { CreateTaskComponent } from 'app/views/Internal-dashboard/create-task/create-task.component';
 import { CreateTaskDialogComponent } from '../create-task-dialog/create-task.component';
 

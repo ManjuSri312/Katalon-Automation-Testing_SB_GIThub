@@ -56,11 +56,25 @@ letter-spacing: 0.16px;
 
   min-width: 150px;
   height: 36px;
-  // padding: 0 14px;
+  padding: 0 14px;
 
   font-size: 14px;
   font-weight: 600;
   border-radius: 20px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.help-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  vertical-align: middle;
 }
 
 .warning {
@@ -100,4 +114,23 @@ margin-top:10px;
     overflow: hidden;
     margin-bottom: 5px;
     height: 31.285px;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: "Open Sans";
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.tab.active {
+  background: #fff;
+  color: #000;
 }
