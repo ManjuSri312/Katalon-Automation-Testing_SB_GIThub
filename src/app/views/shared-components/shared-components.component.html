@@ -18,7 +18,23 @@
     <div class="component-grid" [class.all-components]="showAll">
       @for (card of visibleCards; track card.name) {
         <article class="component-card" [class.selected]="selected === card">
-          <button class="preview" type="button" (click)="onPreviewClick(card)" [attr.aria-label]="(card.kind === 'calculation' || card.kind === 'create-task' || card.kind === 'task-detail') ? 'Open ' + card.name + ' popup' : 'View ' + card.name + ' related components'">
+          <!--
+            A plain <button> can't be used here: the live Filter panel preview
+            renders its own real <button> (the funnel trigger), and a <button>
+            nested inside another <button> is invalid HTML that browsers will
+            silently mangle. role="button" + tabindex/keydown keeps this
+            keyboard- and screen-reader-accessible without that constraint.
+          -->
+          <div
+            class="preview"
+            role="button"
+            tabindex="0"
+            [class.dark-preview]="card.kind === 'export' || card.kind === 'filter'"
+            (click)="onPreviewClick(card)"
+            (keydown.enter)="onPreviewClick(card)"
+            (keydown.space)="onPreviewClick(card); $event.preventDefault()"
+            [attr.aria-label]="(card.kind === 'calculation' || card.kind === 'create-task' || card.kind === 'task-detail') ? 'Open ' + card.name + ' popup' : 'View ' + card.name + ' related components'"
+          >
             @if (card.kind === 'metric') {
               <app-shared-metric-card title="Open diagnostics" [value]="1195" valuePadding="28px 0" [showPoweredBy]="false" />
             } @else if (card.kind === 'asset') {
@@ -38,9 +54,23 @@
             } @else if (card.kind === 'breadcrumb') {
               <div class="breadcrumb-preview"><span>‹ Back</span><div><b>Dashboard</b><i>/</i><b>Assets</b><i>/</i><strong>AHU-03</strong></div></div>
             } @else if (card.kind === 'export') {
-              <div class="export-preview"><span>Export</span><i>⌄</i><small>CSV&nbsp;&nbsp; PDF&nbsp;&nbsp; PNG</small></div>
+              <!-- Live component: click stops propagation so it opens its own
+                   PNG/PDF dropdown instead of selecting the card. -->
+              <div class="live-toolbar-preview" (click)="$event.stopPropagation()">
+                <app-export-menu />
+              </div>
             } @else if (card.kind === 'csv') {
               <div class="csv-preview"><span>↓</span><strong>Export CSV</strong><small>Download table data</small></div>
+            } @else if (card.kind === 'filter') {
+              <!-- Live component: click stops propagation so it opens the real
+                   filter overlay instead of selecting the card. -->
+              <div class="live-toolbar-preview" (click)="$event.stopPropagation()">
+                <app-filter-panel
+                  [sections]="filterDemoSections"
+                  [facilityData]="filterDemoFacilities"
+                  [equipmentClassDetails]="filterDemoEquipmentClasses"
+                />
+              </div>
             } @else if (card.kind === 'calculation') {
               <div class="popup-preview"><span class="popup-icon">Σ</span><strong>Calculations & Methodology</strong><small>Click to open the live popup</small></div>
             } @else if (card.kind === 'create-task') {
@@ -48,8 +78,14 @@
             } @else {
               <div class="popup-preview"><span class="popup-icon">ℹ</span><strong>Task Detail</strong><small>Click to open the live dialog</small></div>
             }
-          </button>
-          <div class="card-caption"><h2>{{ card.name }}</h2><p>{{ card.description }}</p></div>
+          </div>
+          <div class="card-caption">
+            <h2>{{ card.name }}</h2>
+            <p>{{ card.description }}</p>
+            @if (card.kind === 'calculation' || card.kind === 'create-task' || card.kind === 'task-detail' || card.kind === 'export' || card.kind === 'filter') {
+              <button class="view-code-link" type="button" (click)="select(card)">View related components &amp; code</button>
+            }
+          </div>
         </article>
       }
     </div>
@@ -64,6 +100,22 @@
         <div><p class="eyebrow">Related shared components</p><h2>{{ card.name }}</h2></div>
         <button class="text-button" type="button" (click)="selected = null">Back to all</button>
       </div>
+
+      @if (activeSnippet; as snippet) {
+        <div class="code-viewer">
+          <div class="code-tabs" role="tablist">
+            <button type="button" role="tab" [class.active]="activeCodeTab === 'html'" (click)="setCodeTab('html')">HTML</button>
+            <button type="button" role="tab" [class.active]="activeCodeTab === 'ts'" (click)="setCodeTab('ts')">TS</button>
+            <button type="button" role="tab" [class.active]="activeCodeTab === 'scss'" (click)="setCodeTab('scss')">CSS</button>
+            <button type="button" class="copy-btn" (click)="copyActiveCode()">{{ codeCopied ? 'Copied' : 'Copy' }}</button>
+          </div>
+          <div class="code-file-path">
+            {{ activeCodeTab === 'html' ? snippet.htmlPath : activeCodeTab === 'ts' ? snippet.tsPath : snippet.scssPath }}
+          </div>
+          <pre class="code-block"><code>{{ activeCodeTab === 'html' ? snippet.html : activeCodeTab === 'ts' ? snippet.ts : snippet.scss }}</code></pre>
+        </div>
+      }
+
       <div class="related-list">
         @for (item of card.related; track item) {
           <div class="related-item"><span class="status-dot"></span><span>{{ item }}</span><span class="path">shared/dashboard-components</span></div>

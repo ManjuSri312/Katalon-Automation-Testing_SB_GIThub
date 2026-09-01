@@ -1,0 +1,248 @@
+// Styling for the filter button + overlay panel, made self-contained here
+// (rather than relying on the global src/assets/scss/styles.scss) so this
+// component doesn't depend on anything outside itself. Emulated view
+// encapsulation (Angular's default, used here) scopes every rule below to
+// elements rendered by this component's own template, so it can't affect —
+// or be affected by — any other component's `.btn-primary`/`.btn-reset`/etc.
+// (several other pages reuse those same class names for unrelated buttons).
+:host {
+  display: contents;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid #fff;
+  background: transparent;
+  color: #fff;
+  white-space: nowrap;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+
+  // Hover state
+  &:hover {
+    border-radius: 8px;
+    border: 1px solid var(--Base-Neutrals-White, #fff);
+    background: #1d1d1d;
+    color: #fff;
+  }
+
+  // Active/selected state — orange when filter panel is open
+  &.filter-open {
+    border-radius: 8px;
+    border: 1px solid var(--Primary-Orange, #ff8200) !important;
+    background: var(--Orange-700, #994e00) !important;
+  }
+
+  // Filter selections applied outside default — orange with count
+  &.filter-active {
+    border-radius: 8px;
+    border: 1px solid var(--Primary-Orange, #ff8200) !important;
+    background: var(--Orange-700, #994e00) !important;
+    color: #fff;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background: var(--Orange-700, #994e00) !important;
+    border-color: var(--Primary-Orange, #ff8200) !important;
+    color: #fff !important;
+  }
+
+  &:focus,
+  &.focus {
+    background: var(--Orange-700, #994e00) !important;
+    border-color: var(--Primary-Orange, #ff8200) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+  }
+}
+
+.filter-container {
+  padding: 12px;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+  color: white;
+  border-radius: 12px;
+  border: 1px solid var(--Gray-Palette-20, #333);
+  background: #000;
+  height: fit-content;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+
+  .filter-title {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .divider {
+    border: 0;
+    border-top: 1px solid #222;
+    margin: 12px 0;
+  }
+
+  .filter-section {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #efefef;
+    }
+
+    .custom-select {
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: #fff;
+      border: 1px solid var(--Gray-Palette-20, #333);
+      background: var(--Base-Neutrals-Smog, #1a1a1a);
+    }
+  }
+
+  .filter-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+
+    .btn-reset {
+      background: none;
+      border: none;
+      color: #ff8a00;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        color: #ff9b33 !important;
+      }
+
+      &:active {
+        color: #cc6800 !important;
+      }
+    }
+
+    .action-group {
+      display: flex;
+      gap: 8px;
+
+      .btn-cancel {
+        background: black;
+        border: 1px solid #fff;
+        color: white;
+        padding: 6px 16px;
+        border-radius: 6px;
+      }
+
+      .btn-apply {
+        color: #fff;
+        font-family: "Open Sans";
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid var(--Blue-Palette-400, #376af7);
+        background: var(--Blue-Palette-500-Electric-Blue, #0545f5);
+        display: inline-flex;
+        padding: 4px 8px;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.location-options {
+  margin-top: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid var(--Gray-Palette-30, #4d4d4d);
+  background: var(--Gray-Palette-20, #333);
+}
+
+.location-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // pushes tick to right
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: grey;
+    color: #fff;
+  }
+
+  &.active {
+    background: #0545f5; // blue highlight like image
+    color: #fff;
+  }
+
+  .tick-icon {
+    font-size: 16px;
+    color: #fff; // white checkmark
+  }
+}
+
+.date-range {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.date-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--Gray-Palette-20, #333);
+  background: var(--Base-Neutrals-Smog, #1a1a1a);
+  color: #fff;
+  font-size: 13px;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  // Renders this control's native UI — including the calendar dropdown it
+  // opens — using the browser's built-in dark palette (dark grey surface,
+  // light text) instead of the default white. It's the one CSS property
+  // that reaches the native popup itself; background-color etc. on the
+  // input never could.
+  color-scheme: dark;
+
+  // Style the calendar icon
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #2a6dd9;
+  }
+}
+
+.season-select {
+  margin-top: 8px;
+}

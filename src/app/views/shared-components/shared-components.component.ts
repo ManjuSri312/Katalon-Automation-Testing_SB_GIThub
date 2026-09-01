@@ -6,13 +6,16 @@ import { SharedMissingParameterCardComponent } from '../shared/dashboard-compone
 import { CalculationMethodologyPopupComponent } from '../shared/dashboard-components/calculation-methodology-popup/calculation-methodology-popup.component';
 import { CreateTaskDialogComponent } from '../shared/dashboard-components/create-task-dialog/create-task.component';
 import { TaskDetailsModalComponent } from '../shared/dashboard-components/task-details-modal/task-details-modal.component';
+import { ExportMenuComponent } from '../shared/dashboard-components/export-menu/export-menu.component';
+import { FilterPanelComponent, FilterPanelSections } from '../shared/dashboard-components/filter-panel/filter-panel.component';
+import { CODE_SNIPPETS, CodeSnippet } from './shared-components.snippets';
 
 
 
 interface ComponentCard {
   name: string;
   description: string;
-  kind: 'metric' | 'asset' | 'missing' | 'breadcrumb' | 'export' | 'csv' | 'calculation' | 'create-task' | 'task-detail';
+  kind: 'metric' | 'asset' | 'missing' | 'breadcrumb' | 'export' | 'csv' | 'filter' | 'calculation' | 'create-task' | 'task-detail';
   related: string[];
 }
 
@@ -24,6 +27,8 @@ interface ComponentCard {
     SharedAssetMetricCardComponent,
     SharedMetricCardComponent,
     SharedMissingParameterCardComponent,
+    ExportMenuComponent,
+    FilterPanelComponent,
   ],
   templateUrl: './shared-components.component.html',
   styleUrl: './shared-components.component.scss'
@@ -38,6 +43,7 @@ export class SharedComponentsComponent {
     { name: 'Breadcrumb', description: 'A consistent contextual navigation trail with a back action.', kind: 'breadcrumb', related: ['BreadcrumbComponent', 'RouterModule'] },
     { name: 'Export menu', description: 'A compact action menu for choosing a report export format.', kind: 'export', related: ['ExportMenuComponent', 'ExportCsvComponent'] },
     { name: 'CSV export', description: 'A focused action for downloading table data as a CSV file.', kind: 'csv', related: ['ExportCsvComponent', 'file-saver'] },
+    { name: 'Filter panel', description: 'A filter button with a CDK overlay panel for asset class, location, criticality, RUL, and time period.', kind: 'filter', related: ['FilterPanelComponent', 'FilterState', 'OverlayModule'] },
     { name: 'Calculations & methodology', description: 'A detailed breakdown of M&V methodology, data sources, and savings calculations for an asset.', kind: 'calculation', related: ['CalculationMethodologyPopupComponent', 'MatDialog', 'MatTable'] },
     { name: 'Create task', description: 'A dialog for creating a new work order or task from a diagnostic or asset.', kind: 'create-task', related: ['CreateTaskDialogComponent', 'InternalDashboardService', 'DiagnosticsService'] },
     { name: 'Task detail', description: 'Displays and edits the full details of an existing task or work order.', kind: 'task-detail', related: ['TaskDetailsModalComponent', 'CreateTaskDialogComponent', 'InternalDashboardService'] },
@@ -46,6 +52,17 @@ export class SharedComponentsComponent {
   showAll = false;
   selected: ComponentCard | null = null;
   featuredStart = 0;
+
+  /** Demo data for the live "Filter panel" preview — shows every section, same as the real host pages that render all of them. */
+  readonly filterDemoSections: FilterPanelSections = { assetClass: true, location: true, criticality: true, rul: true, timePeriod: true };
+  readonly filterDemoFacilities = [
+    { FacilityId: 1, FacilityName: 'LGP - HQ Tower' },
+    { FacilityId: 2, FacilityName: 'Riverside Campus' },
+  ];
+  readonly filterDemoEquipmentClasses = [
+    { EquipmentClassId: 1, EquipmentClassName: 'Air Handling Unit' },
+    { EquipmentClassId: 2, EquipmentClassName: 'Chiller' },
+  ];
 
   /** Demo state for the "Missing parameter card" preview, so the All/Critical tab visibly changes what's shown. */
   missingParamsTab: 'all' | 'critical' = 'all';
@@ -60,8 +77,32 @@ export class SharedComponentsComponent {
     return this.cards.slice(this.featuredStart, this.featuredStart + 3);
   }
 
+  /** Which HTML/TS/SCSS tab the code viewer shows for the selected card. */
+  activeCodeTab: 'html' | 'ts' | 'scss' = 'html';
+  codeCopied = false;
+
   select(card: ComponentCard): void {
     this.selected = this.selected === card ? null : card;
+    this.activeCodeTab = 'html';
+    this.codeCopied = false;
+  }
+
+  /** Real source (.html/.ts/.scss) for the currently selected card, if any. */
+  get activeSnippet(): CodeSnippet | null {
+    return this.selected ? (CODE_SNIPPETS[this.selected.kind] ?? null) : null;
+  }
+
+  setCodeTab(tab: 'html' | 'ts' | 'scss'): void {
+    this.activeCodeTab = tab;
+  }
+
+  copyActiveCode(): void {
+    const snippet = this.activeSnippet;
+    if (!snippet) return;
+    navigator.clipboard?.writeText(snippet[this.activeCodeTab]).then(() => {
+      this.codeCopied = true;
+      setTimeout(() => (this.codeCopied = false), 1500);
+    });
   }
 
   /** Cards backed by a real MatDialog-based component open the live popup instead of just showing the related list. */
