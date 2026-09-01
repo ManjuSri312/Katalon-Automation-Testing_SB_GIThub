@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-export-menu',
+  standalone: true,
   templateUrl: './export-menu.component.html',
   styleUrls: ['./export-menu.component.scss']
 })

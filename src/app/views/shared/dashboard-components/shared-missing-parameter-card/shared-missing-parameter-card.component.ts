@@ -23,7 +23,11 @@ export class SharedMissingParameterCardComponent {
 
 @Output() selectedTabChange = new EventEmitter<'all' | 'critical'>();
 
-onTabChange(tab: 'all' | 'critical') {
+onTabChange(tab: 'all' | 'critical', event?: Event) {
+  // Prevent this from bubbling up to any ancestor click handler
+  // (e.g. a card-preview wrapper elsewhere in the app) that would
+  // otherwise treat the tab click as a click on the whole card.
+  event?.stopPropagation();
   this.selectedTab = tab;
   this.selectedTabChange.emit(tab);
 }

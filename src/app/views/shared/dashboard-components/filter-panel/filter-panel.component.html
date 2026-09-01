@@ -1,0 +1,288 @@
+<!-- ══════════════════════════════════════════════════════
+ Filter toggle button
+ · filter-active  → at least one filter is applied (blue tint)
+ · filter-open    → panel is currently visible
+ · cdkOverlayOrigin marks this as the anchor for the overlay
+═══════════════════════════════════════════════════════ -->
+<button
+  class="btn-primary"
+  [class.filter-active]="isFilterActive"
+  [class.filter-open]="isFilterOpen"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+  (click)="toggleFilter()"
+>
+  <!-- Funnel icon -->
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path
+      d="M11.6667 11.6667V16.6667L8.33334 18.3333V11.6667L3.33334 4.16667V2.5H16.6667V4.16667L11.6667 11.6667ZM5.33668 4.16667L10 11.1617L14.6633 4.16667H5.33668Z"
+      fill="white"
+    />
+  </svg>
+
+  <!-- Show badge count when filters are active, plain label otherwise -->
+  @if (activeFilterCount > 0) {
+    Filter ({{ activeFilterCount }})
+  } @else {
+    Filter
+  }
+</button>
+
+<!-- ══════════════════════════════════════════════════════
+ FILTER OVERLAY PANEL
+ Opens below the Filter button via CDK Connected Overlay.
+ Clicking outside (overlayOutsideClick) closes it.
+═══════════════════════════════════════════════════════ -->
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isFilterOpen"
+  (overlayOutsideClick)="isFilterOpen = false"
+>
+  <div class="filter-container" (click)="closeAllDropdowns()">
+    <h3 class="filter-title">Filters</h3>
+    <hr class="divider" />
+
+    <!-- ──────────────────────────────────────────────────
+     FILTER — Asset Classes (multi-select)
+     Selecting "All Classes" clears all individual picks.
+    ─────────────────────────────────────────────────── -->
+    @if (sections.assetClass) {
+      <div class="filter-section">
+        <label>Asset Classes</label>
+
+        <div class="custom-select" (click)="$event.stopPropagation(); toggleAssetClassDropdown()">
+          <span>{{ assetClassLabel }}</span>
+          <mat-icon>{{ isAssetClassDropdownOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+
+        @if (isAssetClassDropdownOpen) {
+          <div class="location-options">
+            <div
+              class="location-item"
+              [class.active]="isAssetClassAllSelected"
+              (click)="onAssetClassAllClick()"
+            >
+              <span>All Classes</span>
+              @if (isAssetClassAllSelected) {
+                <mat-icon class="tick-icon">check</mat-icon>
+              }
+            </div>
+
+            @for (cls of equipmentClassDetails; track cls.EquipmentClassId) {
+              <div
+                class="location-item"
+                [class.active]="isAssetClassChecked(cls.EquipmentClassName)"
+                (click)="onAssetClassToggle(cls.EquipmentClassName)"
+              >
+                <span>{{ cls.EquipmentClassName ?? '' }}</span>
+                @if (isAssetClassChecked(cls.EquipmentClassName)) {
+                  <mat-icon class="tick-icon">check</mat-icon>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ──────────────────────────────────────────────────
+     FILTER — Building / Location (multi-select)
+     Selecting "All Locations" clears individual picks.
+    ─────────────────────────────────────────────────── -->
+    @if (sections.location) {
+      <div class="filter-section">
+        <label>Building / Location(s)</label>
+
+        <div class="custom-select" (click)="$event.stopPropagation(); toggleLocationDropdown()">
+          <span>{{ locationLabel }}</span>
+          <mat-icon>{{ isLocationDropdownOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+
+        @if (isLocationDropdownOpen) {
+          <div class="location-options">
+            <div class="location-item" [class.active]="isAllSelected" (click)="onAllClick()">
+              <span>All Locations</span>
+              @if (isAllSelected) {
+                <mat-icon class="tick-icon">check</mat-icon>
+              }
+            </div>
+
+            @for (facility of facilityData; track facility.FacilityId) {
+              <div
+                class="location-item"
+                [class.active]="isLocationChecked(facility.FacilityName)"
+                (click)="onLocationToggle(facility.FacilityName)"
+              >
+                <span>{{ facility.FacilityName }}</span>
+                @if (isLocationChecked(facility.FacilityName)) {
+                  <mat-icon class="tick-icon">check</mat-icon>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ──────────────────────────────────────────────────
+     FILTER — Criticality (multi-select)
+     Static options: Critical / Medium / Low.
+    ─────────────────────────────────────────────────── -->
+    @if (sections.criticality) {
+      <div class="filter-section">
+        <label>Criticality</label>
+
+        <div class="custom-select" (click)="$event.stopPropagation(); toggleCriticalityDropdown()">
+          <span>{{ criticalityLabel }}</span>
+          <mat-icon>{{ isCriticalityDropdownOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+
+        @if (isCriticalityDropdownOpen) {
+          <div class="location-options">
+            <div
+              class="location-item"
+              [class.active]="isCriticalityAllSelected"
+              (click)="onCriticalityAllClick()"
+            >
+              <span>All Statuses</span>
+              @if (isCriticalityAllSelected) {
+                <mat-icon class="tick-icon">check</mat-icon>
+              }
+            </div>
+
+            @for (level of criticalityOptions; track level) {
+              <div
+                class="location-item"
+                [class.active]="isCriticalityChecked(level)"
+                (click)="onCriticalityToggle(level)"
+              >
+                <span>{{ level }}</span>
+                @if (isCriticalityChecked(level)) {
+                  <mat-icon class="tick-icon">check</mat-icon>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ──────────────────────────────────────────────────
+     FILTER — RUL / Remaining Useful Life (single-select)
+     Picking any option closes the dropdown immediately.
+    ─────────────────────────────────────────────────── -->
+    @if (sections.rul) {
+      <div class="filter-section">
+        <label>RUL</label>
+
+        <div class="custom-select" (click)="$event.stopPropagation(); toggleRulDropdown()">
+          <span>{{ selectedRul || 'All Ranges' }}</span>
+          <mat-icon>{{ isRulDropdownOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+
+        @if (isRulDropdownOpen) {
+          <div class="location-options">
+            @for (range of rulOptions; track range) {
+              <div class="location-item" [class.active]="selectedRul === range" (click)="onRulSelect(range)">
+                <span>{{ range }}</span>
+                @if (selectedRul === range) {
+                  <mat-icon class="tick-icon">check</mat-icon>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ──────────────────────────────────────────────────
+     FILTER — Time Period (single-select)
+     Extra UI appears for "Custom" (date inputs)
+     and "By Season" (season sub-dropdown).
+    ─────────────────────────────────────────────────── -->
+    @if (sections.timePeriod) {
+      <div class="filter-section">
+        <label>Time Period</label>
+
+        <div class="custom-select" (click)="$event.stopPropagation(); toggleTimePeriodDropdown()">
+          <span>{{ selectedTimePeriod }}</span>
+          <mat-icon>{{ isTimePeriodDropdownOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+
+        @if (isTimePeriodDropdownOpen) {
+          <div class="location-options">
+            @for (period of timePeriods; track $index) {
+              <div
+                class="location-item"
+                [class.active]="selectedTimePeriod === period"
+                (click)="onTimePeriodSelect(period)"
+              >
+                <span>{{ period }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Custom date range inputs — visible only when "Custom" is selected -->
+        @if (isCustomSelected) {
+          <div class="date-range" (click)="$event.stopPropagation()">
+            <div class="date-input-wrapper">
+              <input
+                type="date"
+                class="date-input"
+                [(ngModel)]="customStartDate"
+                placeholder="mm/dd/yyyy"
+                (click)="openDatePicker($event)"
+              />
+            </div>
+            <div class="date-input-wrapper">
+              <input
+                type="date"
+                class="date-input"
+                [(ngModel)]="customEndDate"
+                placeholder="mm/dd/yyyy"
+                (click)="openDatePicker($event)"
+              />
+            </div>
+          </div>
+        }
+
+        <!-- Season sub-dropdown — visible only when "By Season" is selected -->
+        @if (isBySeasonSelected) {
+          <div
+            class="custom-select season-select"
+            (click)="$event.stopPropagation(); toggleSeasonDropdown()"
+          >
+            <span>{{ selectedSeason || 'Select season' }}</span>
+            <mat-icon>{{ isSeasonDropdownOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
+          </div>
+
+          @if (isSeasonDropdownOpen) {
+            <div class="location-options">
+              @for (season of seasons; track $index) {
+                <div class="location-item" [class.active]="selectedSeason === season" (click)="onSeasonSelect(season)">
+                  <span>{{ season }}</span>
+                </div>
+              }
+            </div>
+          }
+        }
+      </div>
+    }
+
+    <hr class="divider" />
+
+    <!-- ──────────────────────────────────────────────────
+     FILTER ACTIONS — Reset / Cancel / Apply
+    ─────────────────────────────────────────────────── -->
+    <div class="filter-actions">
+      <button class="btn-reset" (click)="resetFilter()">Reset</button>
+
+      <div class="action-group">
+        <button class="btn-cancel" (click)="cancelFilter()">Cancel</button>
+        <button class="btn-apply" (click)="applyFilters()">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

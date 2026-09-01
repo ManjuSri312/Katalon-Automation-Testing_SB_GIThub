@@ -1,12 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AppMaterialModule } from '../../../material.module';
+import { AppMaterialModule } from '../../../../material.module';
 import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-calculation-methodology-popup',
+  standalone: true,
   imports: [AppMaterialModule, CommonModule,
     FormsModule,],
   templateUrl: './calculation-methodology-popup.component.html',

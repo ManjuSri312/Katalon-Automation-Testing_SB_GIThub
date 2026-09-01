@@ -1,15 +1,16 @@
 import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { InternalDashboardService } from 'app/services/internal-dashboard.service';
-import { DiagnosticsService } from 'app/services/diagnostics.service';
+import { InternalDashboardService } from '../../../../services/internal-dashboard.service';
+import { DiagnosticsService } from '../../../../services/diagnostics.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { AppMaterialModule } from '../../../material.module';
+import { AppMaterialModule } from '../../../../material.module';
 
 @Component({
   selector: 'app-create-task-dialog',
+  standalone: true,
   templateUrl: './create-task.component.html',
   styleUrl: './create-task.component.scss',
   imports: [
