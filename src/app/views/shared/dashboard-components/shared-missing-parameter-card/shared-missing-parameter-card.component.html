@@ -34,7 +34,7 @@
   <span
     class="tab"
     [class.active]="selectedTab === 'all'"
-    (click)="onTabChange('all')"
+    (click)="onTabChange('all', $event)"
   >
     All
   </span>
@@ -42,7 +42,7 @@
   <span
     class="tab"
     [class.active]="selectedTab === 'critical'"
-    (click)="onTabChange('critical')"
+    (click)="onTabChange('critical', $event)"
   >
     Critical
   </span>

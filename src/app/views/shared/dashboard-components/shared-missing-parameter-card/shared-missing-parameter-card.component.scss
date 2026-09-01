@@ -121,16 +121,17 @@ margin-top:10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: #000;
   font-family: "Open Sans";
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   user-select: none;
   transition: background 0.15s ease, color 0.15s ease;
+  background-color: #fff;
 }
 
 .tab.active {
-  background: #fff;
-  color: #000;
+  background: grey;
+  color: #fff;
 }

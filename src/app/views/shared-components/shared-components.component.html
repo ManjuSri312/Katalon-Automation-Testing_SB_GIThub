@@ -18,7 +18,7 @@
     <div class="component-grid" [class.all-components]="showAll">
       @for (card of visibleCards; track card.name) {
         <article class="component-card" [class.selected]="selected === card">
-          <button class="preview" type="button" (click)="select(card)" [attr.aria-label]="'View ' + card.name + ' related components'">
+          <button class="preview" type="button" (click)="onPreviewClick(card)" [attr.aria-label]="(card.kind === 'calculation' || card.kind === 'create-task' || card.kind === 'task-detail') ? 'Open ' + card.name + ' popup' : 'View ' + card.name + ' related components'">
             @if (card.kind === 'metric') {
               <app-shared-metric-card title="Open diagnostics" [value]="1195" valuePadding="28px 0" [showPoweredBy]="false" />
             } @else if (card.kind === 'asset') {
@@ -26,13 +26,27 @@
                 <span metric-prefix class="preview-currency">$</span><span metric-postfix class="preview-unit">k</span>
               </app-shared-asset-metric-card>
             } @else if (card.kind === 'missing') {
-              <app-shared-missing-parameter-card title="Missing parameters" [assetCount]="24" [inputCount]="8" [diagnosticCount]="3" varianceImpact="$12.4k" />
+              <app-shared-missing-parameter-card
+                title="Missing parameters"
+                [assetCount]="missingParamsData[missingParamsTab].assetCount"
+                [inputCount]="missingParamsData[missingParamsTab].inputCount"
+                [diagnosticCount]="missingParamsData[missingParamsTab].diagnosticCount"
+                varianceImpact="$12.4k"
+                [selectedTab]="missingParamsTab"
+                (selectedTabChange)="missingParamsTab = $event"
+              />
             } @else if (card.kind === 'breadcrumb') {
               <div class="breadcrumb-preview"><span>‹ Back</span><div><b>Dashboard</b><i>/</i><b>Assets</b><i>/</i><strong>AHU-03</strong></div></div>
             } @else if (card.kind === 'export') {
               <div class="export-preview"><span>Export</span><i>⌄</i><small>CSV&nbsp;&nbsp; PDF&nbsp;&nbsp; PNG</small></div>
-            } @else {
+            } @else if (card.kind === 'csv') {
               <div class="csv-preview"><span>↓</span><strong>Export CSV</strong><small>Download table data</small></div>
+            } @else if (card.kind === 'calculation') {
+              <div class="popup-preview"><span class="popup-icon">Σ</span><strong>Calculations & Methodology</strong><small>Click to open the live popup</small></div>
+            } @else if (card.kind === 'create-task') {
+              <div class="popup-preview"><span class="popup-icon">+</span><strong>Create Task</strong><small>Click to open the live dialog</small></div>
+            } @else {
+              <div class="popup-preview"><span class="popup-icon">ℹ</span><strong>Task Detail</strong><small>Click to open the live dialog</small></div>
             }
           </button>
           <div class="card-caption"><h2>{{ card.name }}</h2><p>{{ card.description }}</p></div>

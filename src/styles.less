@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*
+ * Overrides for Angular Material overlay content (dialogs, mat-select panels).
+ *
+ * These elements are rendered by the CDK overlay as siblings appended to
+ * <body>, outside any component's own view — so a component-scoped
+ * stylesheet can never reach them, encapsulated or not. The old approach
+ * used the deprecated ::ng-deep pseudo-selector inside
+ * create-task.component.scss to force through view encapsulation; since
+ * ::ng-deep with nothing before it compiles to a fully global selector
+ * anyway, moving the same rules here is a behavior-identical, non-deprecated
+ * replacement. Keeping them in one place also avoids re-declaring the same
+ * overlay overrides per-component if another dialog needs the same look.
+ */
+
+/* Create Task / Task Detail dialogs: dark theme for select dropdown options */
+.mat-mdc-option.mdc-list-item {
+  background-color: #000 !important;
+  align-items: center;
+}
+
+.mat-mdc-option.mdc-list-item:hover {
+  background-color: #000 !important;
+}
+
+.mat-mdc-option.mdc-list-item.mdc-list-item--selected {
+  background-color: #000 !important;
+}
+
+.mat-mdc-form-field {
+  width: 100% !important;
+}
+
+/* Shared "assignee" dropdown panel (used by both the create-task and task-details dialogs) */
+.assignee-panel.mat-mdc-select-panel {
+  background: #000 !important;
+}
+
+.assignee-panel .mat-mdc-option {
+  color: #fff !important;
+  background: #000;
+
+  &:hover:not(.mdc-list-item--disabled),
+  &.mat-mdc-option-active {
+    background: #1a1a1a !important;
+  }
+
+  &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background: #222 !important;
+  }
+
+  .mdc-list-item__primary-text {
+    color: #fff !important;
+  }
+}
+
+/* Create Task dialog surface: remove default MDC padding and clip its own scroll to the inner .dialog-body */
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 0px !important;
+}
+
+.mat-mdc-dialog-surface {
+  overflow-y: hidden;
+}
+
+.mdc-dialog--open .mat-mdc-dialog-surface,
+.mdc-dialog--closing .mat-mdc-dialog-surface {
+  overflow-y: hidden !important;
+}
