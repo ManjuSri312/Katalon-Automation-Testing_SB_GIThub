@@ -10,7 +10,7 @@ h1 { margin: 0; font-size: 32px; font-weight: 500; letter-spacing: -.02em; }
 .component-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
 .component-grid.all-components { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 34px; }
 .component-card { min-width: 0; }
-.preview { display: flex; align-items: center; justify-content: center; width: 100%; height: 240px; padding: 24px; overflow: hidden; border: 0; background: #edf2fc; color: inherit; cursor: pointer; text-align: left; transition: transform .18s ease, box-shadow .18s ease; }
+.preview { box-sizing: border-box; display: flex; align-items: center; justify-content: center; width: 100%; height: 240px; padding: 24px; overflow: hidden; border: 0; background: #edf2fc; color: inherit; cursor: pointer; text-align: left; transition: transform .18s ease, box-shadow .18s ease; }
 .preview:hover, .selected .preview { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(27, 56, 92, .14); }
 .component-card:nth-child(3n + 2) .preview { background: #fff4ef; }
 .component-card:nth-child(3n) .preview { background: #fbf3ed; }
